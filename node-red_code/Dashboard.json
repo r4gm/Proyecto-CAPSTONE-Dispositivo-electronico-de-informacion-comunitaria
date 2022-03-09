@@ -1591,7 +1591,7 @@
     {
         "id": "0dfa90d27ea118cd",
         "type": "ui_group",
-        "name": "Pulso Cardiaco y Oxinegación",
+        "name": "Pulso Cardiaco y Oxigenación",
         "tab": "50b52f6cda8dffa5",
         "order": 1,
         "disp": true,
