@@ -1,0 +1,1644 @@
+[
+    {
+        "id": "b962330b12c79d7c",
+        "type": "tab",
+        "label": "Dashboard",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "6986f2a94ca311b2",
+        "type": "mqtt in",
+        "z": "b962330b12c79d7c",
+        "name": "MQTTHeartRate",
+        "topic": "",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "24a553c8f7d671e7",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 100,
+        "y": 40,
+        "wires": [
+            [
+                "1abb9bff14ba5a2f"
+            ]
+        ]
+    },
+    {
+        "id": "1abb9bff14ba5a2f",
+        "type": "function",
+        "z": "b962330b12c79d7c",
+        "name": "",
+        "func": "var newmsg = {payload: msg.payload.toString()};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 40,
+        "wires": [
+            [
+                "1830631ae4fb45fa",
+                "5890de7245a095dc",
+                "474d5182317900bc"
+            ]
+        ]
+    },
+    {
+        "id": "1830631ae4fb45fa",
+        "type": "debug",
+        "z": "b962330b12c79d7c",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 590,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "2614d87deace17cc",
+        "type": "mqtt in",
+        "z": "b962330b12c79d7c",
+        "name": "MQTTBlood",
+        "topic": "",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "24a553c8f7d671e7",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 110,
+        "y": 220,
+        "wires": [
+            [
+                "e97b6d7f512a087f"
+            ]
+        ]
+    },
+    {
+        "id": "e97b6d7f512a087f",
+        "type": "function",
+        "z": "b962330b12c79d7c",
+        "name": "",
+        "func": "var newmsg = {payload: msg.payload.toString()};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 220,
+        "wires": [
+            [
+                "c8e0953f72469aa7",
+                "23192557b5563bb8"
+            ]
+        ]
+    },
+    {
+        "id": "c8e0953f72469aa7",
+        "type": "debug",
+        "z": "b962330b12c79d7c",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 530,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "e0698718b4bd81bc",
+        "type": "function",
+        "z": "b962330b12c79d7c",
+        "name": "Query Publicaciones de la Comunidad",
+        "func": "msg.payload = \"\"\nmsg.limit = 1;\nmsg.collection = \"publiComunidad\";\nmsg.sort = {'_id':-1};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 520,
+        "wires": [
+            [
+                "5438cb4a1e5ca85d"
+            ]
+        ]
+    },
+    {
+        "id": "f0253ab01b38af50",
+        "type": "function",
+        "z": "b962330b12c79d7c",
+        "name": "Query Apoyo Comunitario",
+        "func": "msg.payload = \"\"\nmsg.limit = 1;\nmsg.collection = \"apoyoComunitario\";\nmsg.sort = {'_id':-1};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 440,
+        "wires": [
+            [
+                "71822261ba5041ce"
+            ]
+        ]
+    },
+    {
+        "id": "a6e68f019f8b77da",
+        "type": "function",
+        "z": "b962330b12c79d7c",
+        "name": "Query Información Pública",
+        "func": "msg.payload = \"\"\nmsg.limit = 1;\nmsg.collection = \"infoPublica\";\nmsg.sort = {'_id':-1};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 360,
+        "wires": [
+            [
+                "be983fe327577dd5"
+            ]
+        ]
+    },
+    {
+        "id": "5bdf8e45d5c680c9",
+        "type": "inject",
+        "z": "b962330b12c79d7c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 440,
+        "wires": [
+            [
+                "a6e68f019f8b77da",
+                "f0253ab01b38af50",
+                "e0698718b4bd81bc",
+                "27ca098876a60f2b",
+                "881550cd6b26e80e",
+                "c021211339671a81"
+            ]
+        ]
+    },
+    {
+        "id": "4e41bfb99ae9dd67",
+        "type": "debug",
+        "z": "b962330b12c79d7c",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 390,
+        "y": 1300,
+        "wires": []
+    },
+    {
+        "id": "66c0f1356e84343f",
+        "type": "inject",
+        "z": "b962330b12c79d7c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 940,
+        "wires": [
+            [
+                "36f3b994d7ee6a5b"
+            ]
+        ]
+    },
+    {
+        "id": "1f28fc595083dcfd",
+        "type": "function",
+        "z": "b962330b12c79d7c",
+        "name": "",
+        "func": "msg.payload = msg.payload.tempc;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 800,
+        "wires": [
+            [
+                "dcfe5fa6152316d5"
+            ]
+        ]
+    },
+    {
+        "id": "a067550dfd4238c8",
+        "type": "function",
+        "z": "b962330b12c79d7c",
+        "name": "",
+        "func": "msg.topic = \"Detalle de la localidad: \"+msg.location.city+\", \"+msg.location.country;\nmsg.payload = msg.payload.detail;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 860,
+        "wires": [
+            [
+                "037952206de0801f"
+            ]
+        ]
+    },
+    {
+        "id": "f73eae32b28e18c4",
+        "type": "function",
+        "z": "b962330b12c79d7c",
+        "name": "",
+        "func": "msg.payload = msg.payload.temp_minc+\"ºC\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 920,
+        "wires": [
+            [
+                "b8942d1394666d5c"
+            ]
+        ]
+    },
+    {
+        "id": "ddc717054707b06d",
+        "type": "function",
+        "z": "b962330b12c79d7c",
+        "name": "",
+        "func": "msg.payload = msg.payload.temp_maxc+\"ºC\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 1000,
+        "wires": [
+            [
+                "fc9516405f1999ba"
+            ]
+        ]
+    },
+    {
+        "id": "1b889d451ad89e29",
+        "type": "function",
+        "z": "b962330b12c79d7c",
+        "name": "",
+        "func": "var val = Math.floor((msg.payload.winddirection / 22.5) + 0.5);\nvar arr = [\"Norte\", \"Norte Nord-Este\", \"Nord-Este\", \"Este Nord-Este\", \"Este\", \"Este Sur-Este\", \"Sur-Este\", \"Sur Sur-Este\", \"Sur\", \"Sur Sur-Oeste\", \"Sur-Oeste\", \"Oeste Sur-Oeste\", \"Oeste\", \"Oeste Nord-Oeste\", \"Noroeste\", \"Norte Nord-Oeste\"];\nwinddirection = arr[(val % 16)];\nmsg.payload = winddirection;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 1080,
+        "wires": [
+            [
+                "10ea33de0fe5cd52"
+            ]
+        ]
+    },
+    {
+        "id": "0607e636a3f92822",
+        "type": "function",
+        "z": "b962330b12c79d7c",
+        "name": "",
+        "func": "msg.payload = (msg.payload.windspeed * 3.6).toFixed(2)+'km/h';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 1220,
+        "wires": [
+            [
+                "44a412424a384a87"
+            ]
+        ]
+    },
+    {
+        "id": "da841fe022f7e321",
+        "type": "function",
+        "z": "b962330b12c79d7c",
+        "name": "",
+        "func": "msg.payload = msg.payload.humidity+'%';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 1160,
+        "wires": [
+            [
+                "63e692301ae82fb7"
+            ]
+        ]
+    },
+    {
+        "id": "f4de93a2854fa2f3",
+        "type": "function",
+        "z": "b962330b12c79d7c",
+        "name": "",
+        "func": "var options = { timeZone: 'America/Mexico_City', timeZoneName: 'short' };\nvar localTimeSunrise = new Date(msg.payload.sunrise * 1000).toLocaleTimeString('es-MX', options)\n\nmsg.payload = localTimeSunrise+', formato 24 Hrs\\n';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 1280,
+        "wires": [
+            [
+                "10804da19c98e5b4"
+            ]
+        ]
+    },
+    {
+        "id": "626f313f2fa7812c",
+        "type": "function",
+        "z": "b962330b12c79d7c",
+        "name": "",
+        "func": "var options = { timeZone: 'America/Mexico_City', timeZoneName: 'short' };\nvar localTimeSunset = new Date(msg.payload.sunset * 1000).toLocaleTimeString('es-MX', options)\n\nmsg.payload = localTimeSunset+', formato 24 Hrs\\n';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 1340,
+        "wires": [
+            [
+                "b1a44725a07bce8f"
+            ]
+        ]
+    },
+    {
+        "id": "9b7c49e1f618820a",
+        "type": "function",
+        "z": "b962330b12c79d7c",
+        "name": "",
+        "func": "msg.payload = msg.payload.clouds+'%';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 1400,
+        "wires": [
+            [
+                "604c74dea435576a"
+            ]
+        ]
+    },
+    {
+        "id": "e312d5aa40d2ffc3",
+        "type": "template",
+        "z": "b962330b12c79d7c",
+        "name": "Openweather",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<div align=\"center\"><img width=\"160\" height=\"70\" src=\"{{{payload}}}\"></div>",
+        "output": "str",
+        "x": 900,
+        "y": 760,
+        "wires": [
+            [
+                "f433df681f4ad842"
+            ]
+        ]
+    },
+    {
+        "id": "ecf4efe370165998",
+        "type": "switch",
+        "z": "b962330b12c79d7c",
+        "name": "Tipo de Mensage 1",
+        "property": "payload[0].type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "message",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "photo",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 870,
+        "y": 200,
+        "wires": [
+            [
+                "dafc42cd9c423f72"
+            ],
+            [
+                "e7b00f41ea99691e"
+            ]
+        ]
+    },
+    {
+        "id": "dafc42cd9c423f72",
+        "type": "function",
+        "z": "b962330b12c79d7c",
+        "name": "Mensaje 1 Texto",
+        "func": "msg.payload = msg.payload[0].content;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1060,
+        "y": 180,
+        "wires": [
+            [
+                "e59b21b83ddd6b4b"
+            ]
+        ]
+    },
+    {
+        "id": "e7b00f41ea99691e",
+        "type": "function",
+        "z": "b962330b12c79d7c",
+        "name": "Mensaje 1 Imagen",
+        "func": "msg.payload2 = msg.payload;\nmsg.payload = msg.payload2[0].weblink;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1070,
+        "y": 240,
+        "wires": [
+            [
+                "978a03a0c77c72cc"
+            ]
+        ]
+    },
+    {
+        "id": "4a1fa5f6387910ec",
+        "type": "template",
+        "z": "b962330b12c79d7c",
+        "name": "Infortmación Pública",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<div align=\"center\"><img width=\"90%\" height=\"auto\" src=\"{{{payload}}}\"></div>",
+        "output": "str",
+        "x": 1460,
+        "y": 240,
+        "wires": [
+            [
+                "4ff1d1e3bffa78dd"
+            ]
+        ]
+    },
+    {
+        "id": "80139915b7112799",
+        "type": "switch",
+        "z": "b962330b12c79d7c",
+        "name": "Tipo de Mensage 1",
+        "property": "payload[0].type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "message",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "photo",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 870,
+        "y": 400,
+        "wires": [
+            [
+                "d507b2de3431b35f"
+            ],
+            [
+                "0ce3163a49ea927d"
+            ]
+        ]
+    },
+    {
+        "id": "d507b2de3431b35f",
+        "type": "function",
+        "z": "b962330b12c79d7c",
+        "name": "Mensaje 1 Texto",
+        "func": "msg.payload = msg.payload[0].content;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1060,
+        "y": 380,
+        "wires": [
+            [
+                "870380ba6fa8a4d9"
+            ]
+        ]
+    },
+    {
+        "id": "0ce3163a49ea927d",
+        "type": "function",
+        "z": "b962330b12c79d7c",
+        "name": "Mensaje 1 Imagen",
+        "func": "msg.payload2 = msg.payload;\nmsg.payload = msg.payload2[0].weblink;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1070,
+        "y": 440,
+        "wires": [
+            [
+                "966223b8da4bf3d1"
+            ]
+        ]
+    },
+    {
+        "id": "c8379da8b8f35f8c",
+        "type": "template",
+        "z": "b962330b12c79d7c",
+        "name": "Apoyo Comunitario",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<div align=\"center\"><img width=\"90%\" height=\"auto\" src=\"{{{payload}}}\"></div>",
+        "output": "str",
+        "x": 1450,
+        "y": 440,
+        "wires": [
+            [
+                "29e8d147176a2f07"
+            ]
+        ]
+    },
+    {
+        "id": "c0c9ed57f10e405e",
+        "type": "switch",
+        "z": "b962330b12c79d7c",
+        "name": "Tipo de Mensage 1",
+        "property": "payload[0].type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "message",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "photo",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 870,
+        "y": 600,
+        "wires": [
+            [
+                "f56ce724f7418cb2"
+            ],
+            [
+                "c858464a2952a293"
+            ]
+        ]
+    },
+    {
+        "id": "f56ce724f7418cb2",
+        "type": "function",
+        "z": "b962330b12c79d7c",
+        "name": "Mensaje 1 Texto",
+        "func": "msg.payload = msg.payload[0].content;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1060,
+        "y": 580,
+        "wires": [
+            [
+                "44a94dabf7455dd6"
+            ]
+        ]
+    },
+    {
+        "id": "c858464a2952a293",
+        "type": "function",
+        "z": "b962330b12c79d7c",
+        "name": "Mensaje 1 Imagen",
+        "func": "msg.payload2 = msg.payload;\nmsg.payload = msg.payload2[0].weblink;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1070,
+        "y": 640,
+        "wires": [
+            [
+                "70d88556f9cd6d10"
+            ]
+        ]
+    },
+    {
+        "id": "cbf9bc4108739cc9",
+        "type": "template",
+        "z": "b962330b12c79d7c",
+        "name": "Publicaciones a la Comunidad",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<div align=\"center\"><img width=\"90%\" height=\"auto\" src=\"{{{payload}}}\"></div>",
+        "output": "str",
+        "x": 1490,
+        "y": 640,
+        "wires": [
+            [
+                "1b05277b18c8a1c4"
+            ]
+        ]
+    },
+    {
+        "id": "e59b21b83ddd6b4b",
+        "type": "template",
+        "z": "b962330b12c79d7c",
+        "name": "Infortmación Pública",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "\n<div align=\"center\"><p style=\"font-size: 32px; margin: 21px 0;\">{{{payload}}}</p></div>",
+        "output": "str",
+        "x": 1400,
+        "y": 140,
+        "wires": [
+            [
+                "4ff1d1e3bffa78dd"
+            ]
+        ]
+    },
+    {
+        "id": "cd89b5cc455de5f6",
+        "type": "debug",
+        "z": "b962330b12c79d7c",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1150,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "870380ba6fa8a4d9",
+        "type": "template",
+        "z": "b962330b12c79d7c",
+        "name": "Apoyo Comunitario",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "\n<div align=\"center\"><p style=\"font-size: 32px; margin: 21px 0;\">{{{payload}}}</p></div>",
+        "output": "str",
+        "x": 1350,
+        "y": 340,
+        "wires": [
+            [
+                "29e8d147176a2f07"
+            ]
+        ]
+    },
+    {
+        "id": "44a94dabf7455dd6",
+        "type": "template",
+        "z": "b962330b12c79d7c",
+        "name": "Publicaciones a la Comunidad",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "\n<div align=\"center\"><p style=\"font-size: 32px; margin: 21px 0;\">{{{payload}}}</p></div>",
+        "output": "str",
+        "x": 1390,
+        "y": 580,
+        "wires": [
+            [
+                "1b05277b18c8a1c4"
+            ]
+        ]
+    },
+    {
+        "id": "96e400f71e538db2",
+        "type": "switch",
+        "z": "b962330b12c79d7c",
+        "name": "User Detect",
+        "property": "originalMessage.from.id",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "588000949",
+                "vt": "str"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 1,
+        "x": 210,
+        "y": 680,
+        "wires": [
+            [
+                "a6e68f019f8b77da",
+                "c021211339671a81",
+                "881550cd6b26e80e",
+                "f0253ab01b38af50",
+                "27ca098876a60f2b",
+                "e0698718b4bd81bc",
+                "36f3b994d7ee6a5b"
+            ]
+        ]
+    },
+    {
+        "id": "37d30505cbce7fa5",
+        "type": "telegram command",
+        "z": "b962330b12c79d7c",
+        "name": "",
+        "command": "/now",
+        "description": "",
+        "registercommand": false,
+        "language": "",
+        "scope": "default",
+        "bot": "b3759cfd74a26a82",
+        "strict": false,
+        "hasresponse": true,
+        "useregex": false,
+        "removeregexcommand": false,
+        "outputs": 2,
+        "x": 70,
+        "y": 640,
+        "wires": [
+            [
+                "96e400f71e538db2"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "36f3b994d7ee6a5b",
+        "type": "openweathermap",
+        "z": "b962330b12c79d7c",
+        "name": "Clima Estados",
+        "wtype": "current",
+        "lon": "-99.1603",
+        "lat": "19.3289",
+        "city": "",
+        "country": "",
+        "language": "es",
+        "x": 300,
+        "y": 940,
+        "wires": [
+            [
+                "4e41bfb99ae9dd67",
+                "1f28fc595083dcfd",
+                "a067550dfd4238c8",
+                "f73eae32b28e18c4",
+                "ddc717054707b06d",
+                "1b889d451ad89e29",
+                "0607e636a3f92822",
+                "da841fe022f7e321",
+                "f4de93a2854fa2f3",
+                "626f313f2fa7812c",
+                "9b7c49e1f618820a",
+                "f52c32d871e825fa"
+            ]
+        ]
+    },
+    {
+        "id": "be983fe327577dd5",
+        "type": "mongodb in",
+        "z": "b962330b12c79d7c",
+        "mongodb": "5a8f02d12f358ae8",
+        "name": "Find Data",
+        "collection": "",
+        "operation": "find",
+        "x": 640,
+        "y": 360,
+        "wires": [
+            [
+                "ecf4efe370165998",
+                "cd89b5cc455de5f6"
+            ]
+        ]
+    },
+    {
+        "id": "5438cb4a1e5ca85d",
+        "type": "mongodb in",
+        "z": "b962330b12c79d7c",
+        "mongodb": "5a8f02d12f358ae8",
+        "name": "Find Data",
+        "collection": "",
+        "operation": "find",
+        "x": 660,
+        "y": 520,
+        "wires": [
+            [
+                "c0c9ed57f10e405e",
+                "cd89b5cc455de5f6"
+            ]
+        ]
+    },
+    {
+        "id": "71822261ba5041ce",
+        "type": "mongodb in",
+        "z": "b962330b12c79d7c",
+        "mongodb": "5a8f02d12f358ae8",
+        "name": "Find Data",
+        "collection": "",
+        "operation": "find",
+        "x": 660,
+        "y": 440,
+        "wires": [
+            [
+                "80139915b7112799",
+                "cd89b5cc455de5f6"
+            ]
+        ]
+    },
+    {
+        "id": "f52c32d871e825fa",
+        "type": "jimp-image",
+        "z": "b962330b12c79d7c",
+        "name": "Icono Clima Temperatura",
+        "data": "https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png",
+        "dataType": "str",
+        "ret": "b64",
+        "parameter1": "",
+        "parameter1Type": "msg",
+        "parameter2": "",
+        "parameter2Type": "msg",
+        "parameter3": "",
+        "parameter3Type": "msg",
+        "parameter4": "",
+        "parameter4Type": "msg",
+        "parameter5": "",
+        "parameter5Type": "msg",
+        "parameter6": "",
+        "parameter6Type": "msg",
+        "parameter7": "",
+        "parameter7Type": "msg",
+        "parameter8": "",
+        "parameter8Type": "msg",
+        "sendProperty": "payload",
+        "parameterCount": 0,
+        "jimpFunction": "none",
+        "selectedJimpFunction": {
+            "name": "none",
+            "fn": "none",
+            "description": "Just loads the image.",
+            "parameters": []
+        },
+        "x": 690,
+        "y": 760,
+        "wires": [
+            [
+                "e312d5aa40d2ffc3"
+            ]
+        ]
+    },
+    {
+        "id": "978a03a0c77c72cc",
+        "type": "jimp-image",
+        "z": "b962330b12c79d7c",
+        "name": "",
+        "data": "payload",
+        "dataType": "msg",
+        "ret": "b64",
+        "parameter1": "",
+        "parameter1Type": "msg",
+        "parameter2": "",
+        "parameter2Type": "msg",
+        "parameter3": "",
+        "parameter3Type": "msg",
+        "parameter4": "",
+        "parameter4Type": "msg",
+        "parameter5": "",
+        "parameter5Type": "msg",
+        "parameter6": "",
+        "parameter6Type": "msg",
+        "parameter7": "",
+        "parameter7Type": "msg",
+        "parameter8": "",
+        "parameter8Type": "msg",
+        "sendProperty": "payload",
+        "sendPropertyType": "msg",
+        "parameterCount": 0,
+        "jimpFunction": "none",
+        "selectedJimpFunction": {
+            "name": "none",
+            "fn": "none",
+            "description": "Just loads the image.",
+            "parameters": []
+        },
+        "x": 1250,
+        "y": 240,
+        "wires": [
+            [
+                "4a1fa5f6387910ec"
+            ]
+        ]
+    },
+    {
+        "id": "966223b8da4bf3d1",
+        "type": "jimp-image",
+        "z": "b962330b12c79d7c",
+        "name": "",
+        "data": "payload",
+        "dataType": "msg",
+        "ret": "b64",
+        "parameter1": "",
+        "parameter1Type": "msg",
+        "parameter2": "",
+        "parameter2Type": "msg",
+        "parameter3": "",
+        "parameter3Type": "msg",
+        "parameter4": "",
+        "parameter4Type": "msg",
+        "parameter5": "",
+        "parameter5Type": "msg",
+        "parameter6": "",
+        "parameter6Type": "msg",
+        "parameter7": "",
+        "parameter7Type": "msg",
+        "parameter8": "",
+        "parameter8Type": "msg",
+        "sendProperty": "payload",
+        "sendPropertyType": "msg",
+        "parameterCount": 0,
+        "jimpFunction": "none",
+        "selectedJimpFunction": {
+            "name": "none",
+            "fn": "none",
+            "description": "Just loads the image.",
+            "parameters": []
+        },
+        "x": 1250,
+        "y": 440,
+        "wires": [
+            [
+                "c8379da8b8f35f8c"
+            ]
+        ]
+    },
+    {
+        "id": "70d88556f9cd6d10",
+        "type": "jimp-image",
+        "z": "b962330b12c79d7c",
+        "name": "",
+        "data": "payload",
+        "dataType": "msg",
+        "ret": "b64",
+        "parameter1": "",
+        "parameter1Type": "msg",
+        "parameter2": "",
+        "parameter2Type": "msg",
+        "parameter3": "",
+        "parameter3Type": "msg",
+        "parameter4": "",
+        "parameter4Type": "msg",
+        "parameter5": "",
+        "parameter5Type": "msg",
+        "parameter6": "",
+        "parameter6Type": "msg",
+        "parameter7": "",
+        "parameter7Type": "msg",
+        "parameter8": "",
+        "parameter8Type": "msg",
+        "sendProperty": "payload",
+        "sendPropertyType": "msg",
+        "parameterCount": 0,
+        "jimpFunction": "none",
+        "selectedJimpFunction": {
+            "name": "none",
+            "fn": "none",
+            "description": "Just loads the image.",
+            "parameters": []
+        },
+        "x": 1250,
+        "y": 640,
+        "wires": [
+            [
+                "cbf9bc4108739cc9"
+            ]
+        ]
+    },
+    {
+        "id": "5890de7245a095dc",
+        "type": "ui_gauge",
+        "z": "b962330b12c79d7c",
+        "name": "",
+        "group": "0dfa90d27ea118cd",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Ritmo Cardiaco",
+        "label": "Pulsaciones x minuto",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "200",
+        "colors": [
+            "#eab21a",
+            "#0fe600",
+            "#ca3838"
+        ],
+        "seg1": "100",
+        "seg2": "120",
+        "className": "",
+        "x": 600,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "23192557b5563bb8",
+        "type": "ui_gauge",
+        "z": "b962330b12c79d7c",
+        "name": "",
+        "group": "0dfa90d27ea118cd",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "gtype": "wave",
+        "title": "Oxigeno en la sangre",
+        "label": "%",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "",
+        "x": 580,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "dcfe5fa6152316d5",
+        "type": "ui_gauge",
+        "z": "b962330b12c79d7c",
+        "name": "",
+        "group": "394032dba6001496",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Temperatura Actual",
+        "label": "Grados Centigrados",
+        "format": "{{value}}ºC",
+        "min": 0,
+        "max": "40",
+        "colors": [
+            "#09caf1",
+            "#e69100",
+            "#ca3838"
+        ],
+        "seg1": "15",
+        "seg2": "25",
+        "className": "",
+        "x": 830,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "037952206de0801f",
+        "type": "ui_text",
+        "z": "b962330b12c79d7c",
+        "group": "214d9967e221bf87",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "Detalle Localidad",
+        "label": "{{msg.topic}}",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 830,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "b8942d1394666d5c",
+        "type": "ui_text",
+        "z": "b962330b12c79d7c",
+        "group": "394032dba6001496",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Temperatura Minima",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 840,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "fc9516405f1999ba",
+        "type": "ui_text",
+        "z": "b962330b12c79d7c",
+        "group": "394032dba6001496",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Temperatura Máxima",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 840,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "10ea33de0fe5cd52",
+        "type": "ui_text",
+        "z": "b962330b12c79d7c",
+        "group": "214d9967e221bf87",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Dirección del Viento",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 840,
+        "y": 1080,
+        "wires": []
+    },
+    {
+        "id": "44a412424a384a87",
+        "type": "ui_text",
+        "z": "b962330b12c79d7c",
+        "group": "214d9967e221bf87",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "️️️️Velocidad del Viento",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 860,
+        "y": 1220,
+        "wires": []
+    },
+    {
+        "id": "63e692301ae82fb7",
+        "type": "ui_text",
+        "z": "b962330b12c79d7c",
+        "group": "394032dba6001496",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Humedad",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 820,
+        "y": 1160,
+        "wires": []
+    },
+    {
+        "id": "10804da19c98e5b4",
+        "type": "ui_text",
+        "z": "b962330b12c79d7c",
+        "group": "214d9967e221bf87",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Amanecer",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 830,
+        "y": 1280,
+        "wires": []
+    },
+    {
+        "id": "b1a44725a07bce8f",
+        "type": "ui_text",
+        "z": "b962330b12c79d7c",
+        "group": "214d9967e221bf87",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Atardecer",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 820,
+        "y": 1340,
+        "wires": []
+    },
+    {
+        "id": "604c74dea435576a",
+        "type": "ui_text",
+        "z": "b962330b12c79d7c",
+        "group": "214d9967e221bf87",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Nubosidad",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 830,
+        "y": 1400,
+        "wires": []
+    },
+    {
+        "id": "c021211339671a81",
+        "type": "ui_text",
+        "z": "b962330b12c79d7c",
+        "group": "eaa320bd2464ae82",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "Información Pública",
+        "label": "",
+        "format": "Información Pública",
+        "layout": "col-center",
+        "className": "",
+        "x": 400,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "881550cd6b26e80e",
+        "type": "ui_text",
+        "z": "b962330b12c79d7c",
+        "group": "eaa320bd2464ae82",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "Apoyo Comunitario",
+        "label": "",
+        "format": "Apoyo Comunitario",
+        "layout": "col-center",
+        "className": "",
+        "x": 430,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "27ca098876a60f2b",
+        "type": "ui_text",
+        "z": "b962330b12c79d7c",
+        "group": "eaa320bd2464ae82",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "name": "Publicaciones a la Comunidad",
+        "label": "",
+        "format": "Publicaciones a la Comunidad",
+        "layout": "col-center",
+        "className": "",
+        "x": 390,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "f433df681f4ad842",
+        "type": "ui_template",
+        "z": "b962330b12c79d7c",
+        "group": "214d9967e221bf87",
+        "name": "Openweather Icon",
+        "order": 1,
+        "width": 6,
+        "height": 2,
+        "format": "<div ng-bind-html=\"msg.payload\"></div>",
+        "storeOutMessages": false,
+        "fwdInMessages": true,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "className": "",
+        "x": 1090,
+        "y": 760,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4ff1d1e3bffa78dd",
+        "type": "ui_template",
+        "z": "b962330b12c79d7c",
+        "group": "eaa320bd2464ae82",
+        "name": "Publicación",
+        "order": 3,
+        "width": "6",
+        "height": "4",
+        "format": "<div ng-bind-html=\"msg.payload\"></div>",
+        "storeOutMessages": false,
+        "fwdInMessages": true,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "className": "",
+        "x": 1670,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "29e8d147176a2f07",
+        "type": "ui_template",
+        "z": "b962330b12c79d7c",
+        "group": "eaa320bd2464ae82",
+        "name": "Publicación Comunitario",
+        "order": 5,
+        "width": 6,
+        "height": "4",
+        "format": "<div ng-bind-html=\"msg.payload\"></div>",
+        "storeOutMessages": false,
+        "fwdInMessages": true,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "className": "",
+        "x": 1730,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1b05277b18c8a1c4",
+        "type": "ui_template",
+        "z": "b962330b12c79d7c",
+        "group": "eaa320bd2464ae82",
+        "name": "Publicación Comunidad",
+        "order": 7,
+        "width": 6,
+        "height": "4",
+        "format": "<div ng-bind-html=\"msg.payload\"></div>",
+        "storeOutMessages": false,
+        "fwdInMessages": true,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "className": "",
+        "x": 1810,
+        "y": 640,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "474d5182317900bc",
+        "type": "ui_chart",
+        "z": "b962330b12c79d7c",
+        "name": "",
+        "group": "0dfa90d27ea118cd",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "label": "Gráfica de Ritmo Cardiaco",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "5",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 680,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "24a553c8f7d671e7",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "broker.hivemq.com",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "b3759cfd74a26a82",
+        "type": "telegram bot",
+        "botname": "InfComunitarioBot",
+        "usernames": "",
+        "chatids": "",
+        "baseapiurl": "",
+        "updatemode": "polling",
+        "pollinterval": "300",
+        "usesocks": false,
+        "sockshost": "",
+        "socksport": "6667",
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbotport": "8443",
+        "publicbotport": "8443",
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    },
+    {
+        "id": "5a8f02d12f358ae8",
+        "type": "mongodb",
+        "hostname": "cluster0.mfdyi.mongodb.net",
+        "topology": "dnscluster",
+        "connectOptions": "",
+        "port": "27017",
+        "db": "ApoyoComunitario",
+        "name": "MongoDB"
+    },
+    {
+        "id": "0dfa90d27ea118cd",
+        "type": "ui_group",
+        "name": "Pulso Cardiaco y Oxinegación",
+        "tab": "50b52f6cda8dffa5",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "394032dba6001496",
+        "type": "ui_group",
+        "name": "Temperatura",
+        "tab": "50b52f6cda8dffa5",
+        "order": 4,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "214d9967e221bf87",
+        "type": "ui_group",
+        "name": "Clima",
+        "tab": "50b52f6cda8dffa5",
+        "order": 5,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "eaa320bd2464ae82",
+        "type": "ui_group",
+        "name": "Publicaciones",
+        "tab": "50b52f6cda8dffa5",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "50b52f6cda8dffa5",
+        "type": "ui_tab",
+        "name": "Dashboard Informativo",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]

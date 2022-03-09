@@ -1,0 +1,2215 @@
+[
+    {
+        "id": "fc1802182d4124d6",
+        "type": "tab",
+        "label": "Bot Telegram",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "352083e9641a60a8",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Usuarios",
+        "func": "context.global.keyboard = { pending : true };\n\nif(msg.originalMessage.chat.id >= 0){\n    var opts = {\n      reply_to_message_id: msg.payload.messageId,\n      reply_markup: JSON.stringify({\n        keyboard: [\n          ['Clima'],\n          ['Informacion Publica'],\n          ['Donde Ir'],\n          ['Apoyo a la Comunidad'],\n          ['Publicaciones a la Comunidad'],\n          ['Medios de Contacto Ayuntamiento'],\n          ],\n          'resize_keyboard' : true, \n          'one_time_keyboard' : true\n      })\n    };\n}\nif(msg.originalMessage.chat.id < 0){\n    var opts = {\n      reply_to_message_id: msg.payload.messageId,\n      reply_markup: JSON.stringify({\n        keyboard: [\n          ['/Clima'],\n          ['/Medios_de_Contacto_Ayuntamiento']],\n          'resize_keyboard' : true, \n          'one_time_keyboard' : true\n      })\n    };\n}\n\nvar helpMessage = 'Hola ';\nhelpMessage += msg.originalMessage.from.first_name+ ' ' + msg.originalMessage.from.last_name;\nhelpMessage += ', bienvenido a la información de tu comunidad, digita por favor tu opcion; recuerda que si necesitas nuevamente acceder al menu, solo tienes que escribir /start.';\nmsg.payload.content = helpMessage;\nmsg.payload.options = opts;\n\nreturn [ msg ];",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 160,
+        "wires": [
+            [
+                "6890a42135fc707d"
+            ]
+        ]
+    },
+    {
+        "id": "c000217a1881b5ee",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Administradores",
+        "func": "context.global.keyboard = { pending : true };\n\nif(msg.originalMessage.chat.id >= 0){\n    var opts = {\n      reply_to_message_id: msg.payload.messageId,\n      reply_markup: JSON.stringify({\n        keyboard: [\n          ['Opciones Administrador'],\n          ['Clima'],\n          ['Informacion Publica'],\n          ['Donde Ir'],\n          ['Apoyo a la Comunidad'],\n          ['Publicaciones a la Comunidad'],\n          ['Medios de Contacto Ayuntamiento']\n          ],\n          'resize_keyboard' : true, \n          'one_time_keyboard' : true\n      })\n    };\n}\n\nvar helpMessage = 'Hola ';\nhelpMessage += msg.originalMessage.from.first_name+ ' ' + msg.originalMessage.from.last_name;\nhelpMessage += ', bienvenido a la información de tu comunidad, digita por favor tu opcion; recuerda que si necesitas nuevamente acceder al menu, solo tienes que escribir /start.';\nmsg.payload.content = helpMessage;\nmsg.payload.options = opts;\n\n\nreturn [ msg ];",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 60,
+        "wires": [
+            [
+                "6890a42135fc707d"
+            ]
+        ]
+    },
+    {
+        "id": "53006db037971954",
+        "type": "switch",
+        "z": "fc1802182d4124d6",
+        "name": "User Detect",
+        "property": "originalMessage.from.id",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "<Ingresar_ChatID_Telegram>",
+                "vt": "str"
+            },
+            {
+                "t": "gt",
+                "v": "0",
+                "vt": "str"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 2,
+        "x": 270,
+        "y": 100,
+        "wires": [
+            [
+                "c000217a1881b5ee"
+            ],
+            [
+                "352083e9641a60a8"
+            ]
+        ]
+    },
+    {
+        "id": "baec351b2e371b21",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "inline keyboard message cities",
+        "func": "var opts = {\n  reply_to_message_id: msg.payload.messageId,\n  reply_markup: JSON.stringify({\n    \"inline_keyboard\": [[\n                {\n                    \"text\": \"CDMX\",\n                    \"callback_data\": \"Mexico City\"            \n                }, \n                {\n                    \"text\": \"Mérida\",\n                    \"callback_data\": \"Merida\"            \n                }, \n                {\n                    \"text\": \"Cabos\",\n                    \"callback_data\": \"Cabos\"            \n                }, \n                {\n                    \"text\": \"Culiacán\",\n                    \"callback_data\": \"Culiacan\"            \n                }, \n                {\n                    \"text\": \"Monterrey\",\n                    \"callback_data\": \"Monterrey\"            \n                }\n                ]]\n  })\n};\n\nmsg.payload.content = 'Seleccione la ciudad donde se encuentre';\nmsg.payload.options = opts;\n\nreturn [ msg ];\n",
+        "outputs": "1",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 280,
+        "wires": [
+            [
+                "606aa63d8cf022c4"
+            ]
+        ]
+    },
+    {
+        "id": "622c61c41e5a0ddc",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "set  answer options",
+        "func": "msg.location = {city: msg.payload.content, country: \"MX\"};\nmsg.city = msg.payload.content;\nreturn [ msg ];\n",
+        "outputs": "1",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 220,
+        "wires": [
+            [
+                "60d71ff053640e45"
+            ]
+        ]
+    },
+    {
+        "id": "e714de2cc2fd2713",
+        "type": "switch",
+        "z": "fc1802182d4124d6",
+        "name": "Options User Clima",
+        "property": "payload.content",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Clima",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 330,
+        "y": 280,
+        "wires": [
+            [
+                "baec351b2e371b21"
+            ]
+        ]
+    },
+    {
+        "id": "b994ab02e47da59c",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Estatus de Clima Envío Telegram",
+        "func": "var helpMessage = '🌆Ciudad: '+msg.city+'\\n'\nhelpMessage += '🌤️Actual: '+msg.payload.detail+'\\n';\nhelpMessage += '🌡️Temperatura Actual: '+msg.payload.tempc+'°C\\n';\nhelpMessage += '☁️Nubosidad: '+msg.payload.clouds+'%\\n';\nhelpMessage += '🌡➕Temperatura Máxima: '+msg.payload.temp_maxc+'°C\\n';\nhelpMessage += '🌡️➖Temperatura Mínima: '+msg.payload.temp_minc+'°C\\n';\nhelpMessage += '🌫️Humedad: '+msg.payload.humidity+'%\\n';\nhelpMessage += '️🌬️Velocidad del viento: '+(msg.payload.windspeed * 3.6).toFixed(2)+'km/h\\n';\n\nvar val = Math.floor((msg.payload.winddirection / 22.5) + 0.5);\nvar arr = [\"Norte\", \"Norte Nord-Este\", \"Nord-Este\", \"Este Nord-Este\", \"Este\", \"Este Sur-Este\", \"Sur-Este\", \"Sur Sur-Este\", \"Sur\", \"Sur Sur-Oeste\", \"Sur-Oeste\", \"Oeste Sur-Oeste\", \"Oeste\", \"Oeste Nord-Oeste\", \"Noroeste\", \"Norte Nord-Oeste\"];\nwinddirection = arr[(val % 16)];\n\nhelpMessage += '🧭Dirección del viento: '+winddirection+'\\n';\n\nvar options = { timeZone: 'America/Mexico_City', timeZoneName: 'short' };\nvar localTimeSunrise = new Date(msg.payload.sunrise * 1000).toLocaleTimeString('es-MX', options)\nvar localTimeSunset = new Date(msg.payload.sunset * 1000).toLocaleTimeString('es-MX', options)\n\nhelpMessage += '🌅Amanecer: '+localTimeSunrise+', formato 24 Hrs\\n';\nhelpMessage += '🌄Anochecer: '+localTimeSunset+', formato 24 Hrs\\n';\nhelpMessage += '\\n\\n Dar clic para habilitar el menú: /menu';\nmsg.payload.content = helpMessage;\nmsg.payload.chatId = msg.originalMessage.from.id;\nmsg.payload.type = \"message\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 900,
+        "y": 220,
+        "wires": [
+            [
+                "d3da7b3304aa0a71"
+            ]
+        ]
+    },
+    {
+        "id": "2a8a93cdc75310f7",
+        "type": "switch",
+        "z": "fc1802182d4124d6",
+        "name": "User Detect",
+        "property": "originalMessage.from.id",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "<Ingresar_ChatID_Telegram>",
+                "vt": "str"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 1,
+        "x": 290,
+        "y": 660,
+        "wires": [
+            [
+                "f1d83a65105c6d5e",
+                "d07c563270e9b996"
+            ]
+        ]
+    },
+    {
+        "id": "f1d83a65105c6d5e",
+        "type": "switch",
+        "z": "fc1802182d4124d6",
+        "name": "Options Admin",
+        "property": "payload.content",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Opciones Administrador",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Admin Informacion Publica",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Admin Donde Ir",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Admin Apoyo a la Comunidad",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Admin Publicaciones a la Comunidad",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 5,
+        "x": 480,
+        "y": 540,
+        "wires": [
+            [
+                "343dea4e6e5b25e2"
+            ],
+            [
+                "a2f9adf66f9a25a1"
+            ],
+            [
+                "f6d5e7918f4d017b"
+            ],
+            [
+                "46dd16beba04f747"
+            ],
+            [
+                "af661ffd20de3d58"
+            ]
+        ]
+    },
+    {
+        "id": "343dea4e6e5b25e2",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Administradores ops",
+        "func": "context.global.keyboard = { pending : true };\n\nif(msg.originalMessage.chat.id >= 0){\n    var opts = {\n      reply_to_message_id: msg.payload.messageId,\n      reply_markup: JSON.stringify({\n        keyboard: [\n          ['Admin Informacion Publica'],\n          ['Admin Donde Ir'],\n          ['Admin Apoyo a la Comunidad'],\n          ['Admin Publicaciones a la Comunidad']\n          ],\n          'resize_keyboard' : true, \n          'one_time_keyboard' : true\n      })\n    };\n}\n\nvar helpMessage = 'Buenas tardes ';\nhelpMessage += msg.originalMessage.from.first_name+ ' ' + msg.originalMessage.from.last_name;\nhelpMessage += ', bienvenido, digite por favor su opción para agregar un nuevo comunicado; recuerde que si necesita nuevamente acceder al menu principal, solo tiene que escribir /start.';\nmsg.payload.content = helpMessage;\nmsg.payload.options = opts;\n\n\nreturn [ msg ];",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 720,
+        "y": 420,
+        "wires": [
+            [
+                "2940a1b8fda6a490"
+            ]
+        ]
+    },
+    {
+        "id": "a2f9adf66f9a25a1",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "info Pública",
+        "func": "msg.payload.chatId = msg.originalMessage.from.id;\nmsg.payload.sentMessageId = msg.payload.messageId;\nmsg.payload.type = \"message\";\nmsg.payload.content = 'Ingrese el contenido que desea mostrar en información pública';\nmsg.payload.content += '\\nPara agregar la información favor de agregar en el mensaje ya sea imagen o texto, infop:';\nmsg.payload.content += '\\nEjemplo: \\ninfop: Este es un mensaje ejemplo';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 710,
+        "y": 480,
+        "wires": [
+            [
+                "2940a1b8fda6a490"
+            ]
+        ]
+    },
+    {
+        "id": "f6d5e7918f4d017b",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Donde ir",
+        "func": "msg.payload.chatId = msg.originalMessage.from.id;\nmsg.payload.sentMessageId = msg.payload.messageId;\nmsg.payload.type = \"message\";\nmsg.payload.content = 'Ingrese el contenido que desea mostrar en donde ir';\nmsg.payload.content += '\\nPara agregar la información favor de agregar en el mensaje ya sea imagen o texto, dondeir:';\nmsg.payload.content += '\\nEjemplo: \\ndondeir: Este es un mensaje ejemplo <URLGoogleMaps>';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 520,
+        "wires": [
+            [
+                "2940a1b8fda6a490"
+            ]
+        ]
+    },
+    {
+        "id": "46dd16beba04f747",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Apoyo Comunidad",
+        "func": "msg.payload.chatId = msg.originalMessage.from.id;\nmsg.payload.sentMessageId = msg.payload.messageId;\nmsg.payload.type = \"message\";\nmsg.payload.content = 'Ingrese el contenido que desea mostrar en apoyo a la comunidad';\nmsg.payload.content += '\\nPara agregar la información favor de agregar en el mensaje ya sea imagen o texto, apoyocom:';\nmsg.payload.content += '\\nEjemplo: \\napoyocom: Este es un mensaje ejemplo';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 560,
+        "wires": [
+            [
+                "2940a1b8fda6a490"
+            ]
+        ]
+    },
+    {
+        "id": "af661ffd20de3d58",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Publicaciones a la Comunidad",
+        "func": "msg.payload.chatId = msg.originalMessage.from.id;\nmsg.payload.sentMessageId = msg.payload.messageId;\nmsg.payload.type = \"message\";\nmsg.payload.content = 'Ingrese el contenido que desea mostrar en publicaciones a la comunidad';\nmsg.payload.content += '\\nPara agregar la información favor de agregar en el mensaje ya sea imagen o texto, publicom:';\nmsg.payload.content += '\\nEjemplo: \\npublicom: Este es un mensaje ejemplo';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 620,
+        "wires": [
+            [
+                "2940a1b8fda6a490"
+            ]
+        ]
+    },
+    {
+        "id": "6ad63c48a50a551c",
+        "type": "switch",
+        "z": "fc1802182d4124d6",
+        "name": "Options Add Data",
+        "property": "payload.content",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "nfop:",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "ondeir:",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "poyocom:",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "ublicom:",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 4,
+        "x": 590,
+        "y": 780,
+        "wires": [
+            [
+                "9fd39e2195a4e5e8"
+            ],
+            [
+                "cd051b5fa236b754"
+            ],
+            [
+                "65435a085f625e28"
+            ],
+            [
+                "eac56e358b02b3d0"
+            ]
+        ]
+    },
+    {
+        "id": "cd051b5fa236b754",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Donde Ir",
+        "func": "msg.payload.content = msg.payload.content.substring(8, (msg.payload.content.length))\nif(msg.payload.content[0] == ' '){\n    msg.payload.content = msg.payload.content.substring(1, (msg.payload.content.length))\n}\nmsg.payload.infoType = \"dondeIr\";\nmsg.payload.name = msg.originalMessage.from.first_name;\nmsg.payload.lastName = msg.originalMessage.from.last_name;\nmsg.collection = \"dondeIr\";\nmsg.payload.infoName = \"Donde Ir\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 780,
+        "wires": [
+            [
+                "00bae1d6fc4b472f",
+                "405610f561db11f2"
+            ]
+        ]
+    },
+    {
+        "id": "9fd39e2195a4e5e8",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Información Pública",
+        "func": "msg.payload.content = msg.payload.content.substring(6, (msg.payload.content.length))\nif(msg.payload.content[0] == ' '){\n    msg.payload.content = msg.payload.content.substring(1, (msg.payload.content.length))\n}\nmsg.payload.infoType = \"infoPublica\";\nmsg.payload.name = msg.originalMessage.from.first_name;\nmsg.payload.lastName = msg.originalMessage.from.last_name;\nmsg.payload.infoName = \"Información Pública\"\nmsg.collection = \"infoPublica\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 740,
+        "wires": [
+            [
+                "00bae1d6fc4b472f",
+                "405610f561db11f2"
+            ]
+        ]
+    },
+    {
+        "id": "65435a085f625e28",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Apoyo Comunitario",
+        "func": "msg.payload.content = msg.payload.content.substring(9, (msg.payload.content.length))\nif(msg.payload.content[0] == ' '){\n    msg.payload.content = msg.payload.content.substring(1, (msg.payload.content.length))\n}\nmsg.payload.infoType = \"apoyoComunitario\";\nmsg.payload.name = msg.originalMessage.from.first_name;\nmsg.payload.lastName = msg.originalMessage.from.last_name;\nmsg.collection = \"apoyoComunitario\";\nmsg.payload.infoName = \"Apoyo Comunitario\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 820,
+        "wires": [
+            [
+                "00bae1d6fc4b472f",
+                "405610f561db11f2"
+            ]
+        ]
+    },
+    {
+        "id": "d5b7564c6a98705f",
+        "type": "switch",
+        "z": "fc1802182d4124d6",
+        "d": true,
+        "name": "User Detect",
+        "property": "originalMessage.from.id",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "<Ingresar_ChatID_Telegram>",
+                "vt": "num"
+            },
+            {
+                "t": "gt",
+                "v": "0",
+                "vt": "num"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 2,
+        "x": 550,
+        "y": 1220,
+        "wires": [
+            [
+                "6a208f691e42898f"
+            ],
+            [
+                "3244d5b5f7448111"
+            ]
+        ]
+    },
+    {
+        "id": "6a208f691e42898f",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Error Admin Location",
+        "func": "msg.payload.chatId = msg.originalMessage.from.id;\nmsg.payload.sentMessageId = msg.payload.messageId;\nmsg.payload.type = \"message\";\nmsg.payload.content = 'Lo siento, '+msg.originalMessage.from.first_name+' ' + msg.originalMessage.from.last_name+' recuerde que tiene que ingresar el lugar con url de google maps y descripción del lugar';\nmsg.payload.content += '\\n\\n regresar al /menu';\n\nreturn [ msg ];",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 1180,
+        "wires": [
+            [
+                "48562c674f416439"
+            ]
+        ]
+    },
+    {
+        "id": "4f9ef8e49be8986c",
+        "type": "switch",
+        "z": "fc1802182d4124d6",
+        "name": "Denegar Ubicación",
+        "property": "payload.type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "location",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 330,
+        "y": 1180,
+        "wires": [
+            [
+                "d5b7564c6a98705f",
+                "f853486e3b80af37"
+            ]
+        ]
+    },
+    {
+        "id": "3244d5b5f7448111",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Error User Location",
+        "func": "msg.payload.chatId = msg.originalMessage.from.id;\nmsg.payload.sentMessageId = msg.payload.messageId;\nmsg.payload.type = \"message\";\nmsg.payload.content = 'Lo siento, '+msg.originalMessage.from.first_name+' ' + msg.originalMessage.from.last_name+' Opción deshabilitada 😵';\nmsg.payload.content += '\\n\\n regresar al /menu';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 1220,
+        "wires": [
+            [
+                "48562c674f416439"
+            ]
+        ]
+    },
+    {
+        "id": "a1295b4b.e895f8",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Envío de Data a Programador",
+        "func": "var helpMessage;\n   \nif(msg.payload.chatId < 0){    \n    helpMessage = 'Hola Usuario, el ID grupal de Telegram de '+msg.originalMessage.from.first_name+ ' ' + msg.originalMessage.from.last_name+' es: ' + msg.payload.chatId;\n    msg.payload = helpMessage;\n    return msg;\n}\nif(msg.payload.chatId > 0){    \n    helpMessage = 'Hola Usuario, el ID de Telegram de '+msg.originalMessage.from.first_name+ ' ' + msg.originalMessage.from.last_name+' es: ' + msg.payload.chatId;\n    msg.payload = helpMessage;\n    return msg;\n}\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 20,
+        "wires": [
+            [
+                "09833b70f6ad809e"
+            ]
+        ]
+    },
+    {
+        "id": "eac56e358b02b3d0",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Publicaciones de la Comunidad",
+        "func": "msg.payload.content = msg.payload.content.substring(9, (msg.payload.content.length))\nif(msg.payload.content[0] == ' '){\n    msg.payload.content = msg.payload.content.substring(1, (msg.payload.content.length))\n}\nmsg.payload.infoType = \"publiComunidad\";\nmsg.payload.name = msg.originalMessage.from.first_name;\nmsg.payload.lastName = msg.originalMessage.from.last_name;\nmsg.collection = \"publiComunidad\";\nmsg.payload.infoName = \"Publicaciones a la Comunidad\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 880,
+        "wires": [
+            [
+                "00bae1d6fc4b472f",
+                "405610f561db11f2"
+            ]
+        ]
+    },
+    {
+        "id": "077590d84a47f0f3",
+        "type": "switch",
+        "z": "fc1802182d4124d6",
+        "name": "Options Add Data",
+        "property": "payload.content",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Informacion Publica",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Donde Ir",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Apoyo a la Comunidad",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Publicaciones a la Comunidad",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Medios de Contacto Ayuntamiento",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 5,
+        "x": 470,
+        "y": 1300,
+        "wires": [
+            [
+                "c084d8ba1b6ff3a9"
+            ],
+            [
+                "91e1f14539d842d4"
+            ],
+            [
+                "e4f96272348002eb"
+            ],
+            [
+                "cd5247cf3c18bede"
+            ],
+            [
+                "5ae1e256fbf2390f"
+            ]
+        ]
+    },
+    {
+        "id": "5ae1e256fbf2390f",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Información Ayuntamiento",
+        "func": "msg.payload.chatId = msg.originalMessage.from.id;\nmsg.payload.sentMessageId = msg.payload.messageId;\nmsg.payload.type = \"message\";\nmsg.payload.content = msg.originalMessage.from.first_name+' ' + msg.originalMessage.from.last_name+'\\n';\nmsg.payload.content += \"Teléfono: 55 8948 1373\\n\";\nmsg.payload.content += \"Correo: alcaldecoyoacan@cdmx.gob.mx\\n\";\nmsg.payload.content += \"Ubicación: https://goo.gl/maps/TdkUXVhQ1mxaZbaj9\\n\";\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1840,
+        "y": 1840,
+        "wires": [
+            [
+                "3fa5f3d836017a7f"
+            ]
+        ]
+    },
+    {
+        "id": "00bae1d6fc4b472f",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Data Done",
+        "func": "context.global.keyboard = { pending : true };\n\nif(msg.originalMessage.chat.id >= 0){\n    var opts = {\n      reply_to_message_id: msg.payload.messageId,\n      reply_markup: JSON.stringify({\n        keyboard: [\n          ['Opciones Administrador'],\n          ['Clima'],\n          ['Informacion Publica'],\n          ['Donde Ir'],\n          ['Apoyo a la Comunidad'],\n          ['Publicaciones a la comunidad'],\n          ['Medios de Contacto Ayuntamiento']\n          ],\n          'resize_keyboard' : true, \n          'one_time_keyboard' : true\n      })\n    };\n}\n\nmsg.payload.content = msg.originalMessage.from.first_name+' ' + msg.originalMessage.from.last_name+'\\n';\nmsg.payload.content += msg.payload.infoName+' se ha agregado correctamente el texto a la base de datos\\n';\nmsg.payload.options = opts;\n\n\nreturn [ msg ];",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1130,
+        "y": 740,
+        "wires": [
+            [
+                "f44ae3a3ac688fd3"
+            ]
+        ]
+    },
+    {
+        "id": "d07c563270e9b996",
+        "type": "switch",
+        "z": "fc1802182d4124d6",
+        "name": "Options Add Data",
+        "property": "payload.type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "message",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "photo",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 370,
+        "y": 860,
+        "wires": [
+            [
+                "6ad63c48a50a551c"
+            ],
+            [
+                "ec1c3de9d5ad6ef9"
+            ]
+        ]
+    },
+    {
+        "id": "a9ad5c9278afd9b3",
+        "type": "debug",
+        "z": "fc1802182d4124d6",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 290,
+        "y": 1080,
+        "wires": []
+    },
+    {
+        "id": "ec1c3de9d5ad6ef9",
+        "type": "switch",
+        "z": "fc1802182d4124d6",
+        "name": "Options Add Image",
+        "property": "payload.caption",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "nfop:",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "ondeir:",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "poyocom:",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "ublicom:",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 4,
+        "x": 590,
+        "y": 980,
+        "wires": [
+            [
+                "861282e33e1d3deb"
+            ],
+            [
+                "32ad7c0d849d1844"
+            ],
+            [
+                "8ab56639c6b3b233"
+            ],
+            [
+                "ab1d8135a32a2dcf"
+            ]
+        ]
+    },
+    {
+        "id": "861282e33e1d3deb",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Información Pública",
+        "func": "msg.payload.caption = msg.payload.caption.substring(6, (msg.payload.caption.length))\nif(msg.payload.caption[0] == ' '){\n    msg.payload.caption = msg.payload.caption.substring(1, (msg.payload.caption.length))\n}\nmsg.payload.infoType = \"infoPublica\";\nmsg.payload.name = msg.originalMessage.from.first_name;\nmsg.payload.lastName = msg.originalMessage.from.last_name;\nmsg.payload.infoName = \"Información Pública\"\nmsg.collection = \"infoPublica\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 940,
+        "wires": [
+            [
+                "b097370ab63e9dbe",
+                "29aa3e86a27d74db"
+            ]
+        ]
+    },
+    {
+        "id": "32ad7c0d849d1844",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Donde Ir",
+        "func": "msg.payload.caption = msg.payload.caption.substring(8, (msg.payload.caption.length))\nif(msg.payload.caption[0] == ' '){\n    msg.payload.caption = msg.payload.caption.substring(1, (msg.payload.caption.length))\n}\nmsg.payload.infoType = \"dondeIr\";\nmsg.payload.name = msg.originalMessage.from.first_name;\nmsg.payload.lastName = msg.originalMessage.from.last_name;\nmsg.collection = \"dondeIr\";\nmsg.payload.infoName = \"Donde Ir\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 980,
+        "wires": [
+            [
+                "b097370ab63e9dbe",
+                "29aa3e86a27d74db"
+            ]
+        ]
+    },
+    {
+        "id": "8ab56639c6b3b233",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Apoyo Comunitario",
+        "func": "msg.payload.caption = msg.payload.caption.substring(9, (msg.payload.caption.length))\nif(msg.payload.caption[0] == ' '){\n    msg.payload.caption = msg.payload.caption.substring(1, (msg.payload.caption.length))\n}\nmsg.payload.infoType = \"apoyoComunitario\";\nmsg.payload.name = msg.originalMessage.from.first_name;\nmsg.payload.lastName = msg.originalMessage.from.last_name;\nmsg.collection = \"apoyoComunitario\";\nmsg.payload.infoName = \"Apoyo Comunitario\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 1020,
+        "wires": [
+            [
+                "b097370ab63e9dbe",
+                "29aa3e86a27d74db"
+            ]
+        ]
+    },
+    {
+        "id": "ab1d8135a32a2dcf",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Publicaciones de la Comunidad",
+        "func": "msg.payload.caption = msg.payload.caption.substring(9, (msg.payload.caption.length))\nif(msg.payload.caption[0] == ' '){\n    msg.payload.caption = msg.payload.caption.substring(1, (msg.payload.caption.length))\n}\nmsg.payload.infoType = \"publiComunidad\";\nmsg.payload.name = msg.originalMessage.from.first_name;\nmsg.payload.lastName = msg.originalMessage.from.last_name;\nmsg.collection = \"publiComunidad\";\nmsg.payload.infoName = \"Publicaciones a la Comunidad\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 1060,
+        "wires": [
+            [
+                "b097370ab63e9dbe",
+                "29aa3e86a27d74db"
+            ]
+        ]
+    },
+    {
+        "id": "b097370ab63e9dbe",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Data Done",
+        "func": "msg.payload.chatId = msg.originalMessage.from.id;\nmsg.payload.sentMessageId = msg.payload.messageId;\nmsg.payload.type = \"message\";\nmsg.payload.content = msg.originalMessage.from.first_name+' ' + msg.originalMessage.from.last_name+'\\n';\nmsg.payload.content += msg.payload.infoName+' se ha agregado correctamente la imagen a la base de datos';\nmsg.payload.content += '\\n\\n regresar al /menu';\n\nreturn [ msg ];",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1350,
+        "y": 920,
+        "wires": [
+            [
+                "38cc96b502121784"
+            ]
+        ]
+    },
+    {
+        "id": "cd5247cf3c18bede",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Query Publicaciones de la Comunidad",
+        "func": "msg.payload = \"\"\nmsg.limit = 5;\nmsg.collection = \"publiComunidad\";\nmsg.sort = {'_id':-1};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1030,
+        "y": 1380,
+        "wires": [
+            [
+                "07229d9fdb647799"
+            ]
+        ]
+    },
+    {
+        "id": "733c39b8d41baedb",
+        "type": "delay",
+        "z": "fc1802182d4124d6",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 2360,
+        "y": 1180,
+        "wires": [
+            [
+                "3fa5f3d836017a7f"
+            ]
+        ]
+    },
+    {
+        "id": "2402e30097d3c1d3",
+        "type": "delay",
+        "z": "fc1802182d4124d6",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "2",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 2400,
+        "y": 1280,
+        "wires": [
+            [
+                "3fa5f3d836017a7f"
+            ]
+        ]
+    },
+    {
+        "id": "93573ba1fe8fcd60",
+        "type": "delay",
+        "z": "fc1802182d4124d6",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "3",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 2380,
+        "y": 1440,
+        "wires": [
+            [
+                "3fa5f3d836017a7f"
+            ]
+        ]
+    },
+    {
+        "id": "0733556b56971516",
+        "type": "delay",
+        "z": "fc1802182d4124d6",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "4",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 2300,
+        "y": 1600,
+        "wires": [
+            [
+                "3fa5f3d836017a7f"
+            ]
+        ]
+    },
+    {
+        "id": "91e1f14539d842d4",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Query Donde Ir",
+        "func": "msg.payload = \"\"\nmsg.limit = 5;\nmsg.collection = \"dondeIr\";\nmsg.sort = {'_id':-1};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1100,
+        "y": 1300,
+        "wires": [
+            [
+                "07229d9fdb647799"
+            ]
+        ]
+    },
+    {
+        "id": "c084d8ba1b6ff3a9",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Query Información Pública",
+        "func": "msg.payload = \"\"\nmsg.limit = 5;\nmsg.collection = \"infoPublica\";\nmsg.sort = {'_id':-1};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1060,
+        "y": 1260,
+        "wires": [
+            [
+                "07229d9fdb647799"
+            ]
+        ]
+    },
+    {
+        "id": "e4f96272348002eb",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Query Apoyo Comunitario",
+        "func": "msg.payload = \"\"\nmsg.limit = 5;\nmsg.collection = \"apoyoComunitario\";\nmsg.sort = {'_id':-1};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1070,
+        "y": 1340,
+        "wires": [
+            [
+                "07229d9fdb647799"
+            ]
+        ]
+    },
+    {
+        "id": "8854c072943d01c9",
+        "type": "telegram receiver",
+        "z": "fc1802182d4124d6",
+        "name": "",
+        "bot": "b3759cfd74a26a82",
+        "saveDataDir": "",
+        "filterCommands": false,
+        "x": 100,
+        "y": 280,
+        "wires": [
+            [
+                "e714de2cc2fd2713",
+                "a1295b4b.e895f8"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "dac63402c401e627",
+        "type": "telegram receiver",
+        "z": "fc1802182d4124d6",
+        "name": "",
+        "bot": "b3759cfd74a26a82",
+        "saveDataDir": "",
+        "filterCommands": false,
+        "x": 120,
+        "y": 740,
+        "wires": [
+            [
+                "2a8a93cdc75310f7",
+                "4f9ef8e49be8986c",
+                "a9ad5c9278afd9b3"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "76851504e735352c",
+        "type": "telegram receiver",
+        "z": "fc1802182d4124d6",
+        "name": "",
+        "bot": "b3759cfd74a26a82",
+        "saveDataDir": "",
+        "filterCommands": false,
+        "x": 160,
+        "y": 1300,
+        "wires": [
+            [
+                "077590d84a47f0f3"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "6a713f6cbdf8ca74",
+        "type": "telegram command",
+        "z": "fc1802182d4124d6",
+        "name": "",
+        "command": "/start",
+        "description": "",
+        "registercommand": false,
+        "language": "",
+        "scope": "default",
+        "bot": "b3759cfd74a26a82",
+        "strict": false,
+        "hasresponse": true,
+        "useregex": false,
+        "removeregexcommand": false,
+        "outputs": 2,
+        "x": 70,
+        "y": 100,
+        "wires": [
+            [
+                "53006db037971954"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "99ba0faa74f41ef7",
+        "type": "telegram command",
+        "z": "fc1802182d4124d6",
+        "name": "",
+        "command": "/menu",
+        "description": "",
+        "registercommand": false,
+        "language": "",
+        "scope": "default",
+        "bot": "b3759cfd74a26a82",
+        "strict": false,
+        "hasresponse": true,
+        "useregex": false,
+        "removeregexcommand": false,
+        "outputs": 2,
+        "x": 70,
+        "y": 160,
+        "wires": [
+            [
+                "53006db037971954"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "08038f2f46ad7910",
+        "type": "telegram event",
+        "z": "fc1802182d4124d6",
+        "name": "",
+        "bot": "b3759cfd74a26a82",
+        "event": "callback_query",
+        "autoanswer": true,
+        "x": 100,
+        "y": 220,
+        "wires": [
+            [
+                "622c61c41e5a0ddc"
+            ]
+        ]
+    },
+    {
+        "id": "6890a42135fc707d",
+        "type": "telegram sender",
+        "z": "fc1802182d4124d6",
+        "name": "",
+        "bot": "b3759cfd74a26a82",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 660,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "606aa63d8cf022c4",
+        "type": "telegram sender",
+        "z": "fc1802182d4124d6",
+        "name": "show inline keyboard",
+        "bot": "b3759cfd74a26a82",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 880,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d3da7b3304aa0a71",
+        "type": "telegram sender",
+        "z": "fc1802182d4124d6",
+        "name": "Respuesta Clima",
+        "bot": "b3759cfd74a26a82",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1230,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2940a1b8fda6a490",
+        "type": "telegram sender",
+        "z": "fc1802182d4124d6",
+        "name": "",
+        "bot": "b3759cfd74a26a82",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1120,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "48562c674f416439",
+        "type": "telegram sender",
+        "z": "fc1802182d4124d6",
+        "name": "",
+        "bot": "b3759cfd74a26a82",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1250,
+        "y": 1160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3fa5f3d836017a7f",
+        "type": "telegram sender",
+        "z": "fc1802182d4124d6",
+        "name": "",
+        "bot": "b3759cfd74a26a82",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 2780,
+        "y": 1400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f44ae3a3ac688fd3",
+        "type": "telegram sender",
+        "z": "fc1802182d4124d6",
+        "name": "",
+        "bot": "b3759cfd74a26a82",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1360,
+        "y": 740,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "38cc96b502121784",
+        "type": "telegram sender",
+        "z": "fc1802182d4124d6",
+        "name": "",
+        "bot": "b3759cfd74a26a82",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1660,
+        "y": 940,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "60d71ff053640e45",
+        "type": "openweathermap",
+        "z": "fc1802182d4124d6",
+        "name": "Clima Estados",
+        "wtype": "current",
+        "lon": "",
+        "lat": "",
+        "city": "",
+        "country": "",
+        "language": "es",
+        "x": 580,
+        "y": 220,
+        "wires": [
+            [
+                "b994ab02e47da59c"
+            ]
+        ]
+    },
+    {
+        "id": "1d79c6b118d20001",
+        "type": "switch",
+        "z": "fc1802182d4124d6",
+        "name": "Tipo de Mensage 1",
+        "property": "payload[0].type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "message",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "photo",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1530,
+        "y": 1040,
+        "wires": [
+            [
+                "048cf23296f7569f"
+            ],
+            [
+                "dc936cc42682c8f9"
+            ]
+        ]
+    },
+    {
+        "id": "048cf23296f7569f",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Mensaje 1 Texto",
+        "func": "msg.payload2 = msg.payload;\nmsg.payload = {};\nmsg.payload.chatId = msg.originalMessage.from.id;\nmsg.payload.type = msg.payload2[0].type;\nmsg.payload.content = msg.payload2[0].content;    \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1720,
+        "y": 1020,
+        "wires": [
+            [
+                "3fa5f3d836017a7f"
+            ]
+        ]
+    },
+    {
+        "id": "dc936cc42682c8f9",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Mensaje 1 Imagen",
+        "func": "msg.payload2 = msg.payload;\nmsg.payload = msg.payload2[0].weblink;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1730,
+        "y": 1080,
+        "wires": [
+            [
+                "aee5856a2827cd37"
+            ]
+        ]
+    },
+    {
+        "id": "aee5856a2827cd37",
+        "type": "jimp-image",
+        "z": "fc1802182d4124d6",
+        "name": "",
+        "data": "payload",
+        "dataType": "msg",
+        "ret": "buf",
+        "parameter1": "",
+        "parameter1Type": "msg",
+        "parameter2": "",
+        "parameter2Type": "msg",
+        "parameter3": "",
+        "parameter3Type": "msg",
+        "parameter4": "",
+        "parameter4Type": "msg",
+        "parameter5": "",
+        "parameter5Type": "msg",
+        "parameter6": "",
+        "parameter6Type": "msg",
+        "parameter7": "",
+        "parameter7Type": "msg",
+        "parameter8": "",
+        "parameter8Type": "msg",
+        "sendProperty": "payload",
+        "sendPropertyType": "msg",
+        "parameterCount": 0,
+        "jimpFunction": "none",
+        "selectedJimpFunction": {
+            "name": "none",
+            "fn": "none",
+            "description": "Just loads the image.",
+            "parameters": []
+        },
+        "x": 1910,
+        "y": 1080,
+        "wires": [
+            [
+                "92348dcdac264d3d"
+            ]
+        ]
+    },
+    {
+        "id": "92348dcdac264d3d",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Enviar Imagen 1 a Telegram por Buffer",
+        "func": "var buffer = msg.payload;\nvar payload = {\n  content: buffer,\n  caption: msg.payload2[0].caption,\n  type : 'photo',\n  chatId: msg.originalMessage.from.id\n}\n\nmsg.payload = payload;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2150,
+        "y": 1080,
+        "wires": [
+            [
+                "3fa5f3d836017a7f"
+            ]
+        ]
+    },
+    {
+        "id": "51156f8ce4890ea7",
+        "type": "switch",
+        "z": "fc1802182d4124d6",
+        "name": "Tipo de Mensage 2",
+        "property": "payload[1].type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "message",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "photo",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1530,
+        "y": 1240,
+        "wires": [
+            [
+                "7edc281cbb6e7d50"
+            ],
+            [
+                "d67be6eaf22fe7e4"
+            ]
+        ]
+    },
+    {
+        "id": "7edc281cbb6e7d50",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Mensaje 2 Texto",
+        "func": "msg.payload2 = msg.payload;\nmsg.payload = {};\nmsg.payload.chatId = msg.originalMessage.from.id;\nmsg.payload.type = msg.payload2[1].type;\nmsg.payload.content = msg.payload2[1].content;    \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1740,
+        "y": 1180,
+        "wires": [
+            [
+                "733c39b8d41baedb"
+            ]
+        ]
+    },
+    {
+        "id": "d67be6eaf22fe7e4",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Mensaje 2 Imagen",
+        "func": "msg.payload2 = msg.payload;\nmsg.payload = msg.payload2[1].weblink;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1750,
+        "y": 1240,
+        "wires": [
+            [
+                "44ba2c57a307f084"
+            ]
+        ]
+    },
+    {
+        "id": "44ba2c57a307f084",
+        "type": "jimp-image",
+        "z": "fc1802182d4124d6",
+        "name": "",
+        "data": "payload",
+        "dataType": "msg",
+        "ret": "buf",
+        "parameter1": "",
+        "parameter1Type": "msg",
+        "parameter2": "",
+        "parameter2Type": "msg",
+        "parameter3": "",
+        "parameter3Type": "msg",
+        "parameter4": "",
+        "parameter4Type": "msg",
+        "parameter5": "",
+        "parameter5Type": "msg",
+        "parameter6": "",
+        "parameter6Type": "msg",
+        "parameter7": "",
+        "parameter7Type": "msg",
+        "parameter8": "",
+        "parameter8Type": "msg",
+        "sendProperty": "payload",
+        "sendPropertyType": "msg",
+        "parameterCount": 0,
+        "jimpFunction": "none",
+        "selectedJimpFunction": {
+            "name": "none",
+            "fn": "none",
+            "description": "Just loads the image.",
+            "parameters": []
+        },
+        "x": 1930,
+        "y": 1240,
+        "wires": [
+            [
+                "ce5bf5679bb22f4a"
+            ]
+        ]
+    },
+    {
+        "id": "ce5bf5679bb22f4a",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Enviar Imagen 2 a Telegram por Buffer",
+        "func": "var buffer = msg.payload;\nvar payload = {\n  content: buffer,\n  caption: msg.payload2[1].caption,\n  type : 'photo',\n  chatId: msg.originalMessage.from.id\n}\n\nmsg.payload = payload;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2170,
+        "y": 1240,
+        "wires": [
+            [
+                "733c39b8d41baedb"
+            ]
+        ]
+    },
+    {
+        "id": "2bd9514dfd05cf69",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Enviar Imagen 3 a Telegram por Buffer",
+        "func": "var buffer = msg.payload;\nvar payload = {\n  content: buffer,\n  caption: msg.payload2[2].caption,\n  type : 'photo',\n  chatId: msg.originalMessage.from.id\n}\n\nmsg.payload = payload;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2170,
+        "y": 1380,
+        "wires": [
+            [
+                "2402e30097d3c1d3"
+            ]
+        ]
+    },
+    {
+        "id": "0ed05e2272395c89",
+        "type": "switch",
+        "z": "fc1802182d4124d6",
+        "name": "Tipo de Mensage 3",
+        "property": "payload[2].type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "message",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "photo",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1530,
+        "y": 1380,
+        "wires": [
+            [
+                "d0ed1777c48c09aa"
+            ],
+            [
+                "21a867e30247cba9"
+            ]
+        ]
+    },
+    {
+        "id": "d0ed1777c48c09aa",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Mensaje 3 Texto",
+        "func": "msg.payload2 = msg.payload;\nmsg.payload = {};\nmsg.payload.chatId = msg.originalMessage.from.id;\nmsg.payload.type = msg.payload2[2].type;\nmsg.payload.content = msg.payload2[2].content;    \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1740,
+        "y": 1320,
+        "wires": [
+            [
+                "2402e30097d3c1d3"
+            ]
+        ]
+    },
+    {
+        "id": "21a867e30247cba9",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Mensaje 3 Imagen",
+        "func": "msg.payload2 = msg.payload;\nmsg.payload = msg.payload2[2].weblink;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1750,
+        "y": 1380,
+        "wires": [
+            [
+                "164cf1e6ca4d357f"
+            ]
+        ]
+    },
+    {
+        "id": "164cf1e6ca4d357f",
+        "type": "jimp-image",
+        "z": "fc1802182d4124d6",
+        "name": "",
+        "data": "payload",
+        "dataType": "msg",
+        "ret": "buf",
+        "parameter1": "",
+        "parameter1Type": "msg",
+        "parameter2": "",
+        "parameter2Type": "msg",
+        "parameter3": "",
+        "parameter3Type": "msg",
+        "parameter4": "",
+        "parameter4Type": "msg",
+        "parameter5": "",
+        "parameter5Type": "msg",
+        "parameter6": "",
+        "parameter6Type": "msg",
+        "parameter7": "",
+        "parameter7Type": "msg",
+        "parameter8": "",
+        "parameter8Type": "msg",
+        "sendProperty": "payload",
+        "sendPropertyType": "msg",
+        "parameterCount": 0,
+        "jimpFunction": "none",
+        "selectedJimpFunction": {
+            "name": "none",
+            "fn": "none",
+            "description": "Just loads the image.",
+            "parameters": []
+        },
+        "x": 1930,
+        "y": 1380,
+        "wires": [
+            [
+                "2bd9514dfd05cf69"
+            ]
+        ]
+    },
+    {
+        "id": "a3163f265721fc46",
+        "type": "switch",
+        "z": "fc1802182d4124d6",
+        "name": "Tipo de Mensage 4",
+        "property": "payload[3].type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "message",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "photo",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1530,
+        "y": 1540,
+        "wires": [
+            [
+                "bf2bbd8d09221063"
+            ],
+            [
+                "6f604a59cc1d3720"
+            ]
+        ]
+    },
+    {
+        "id": "bf2bbd8d09221063",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Mensaje 4 Texto",
+        "func": "msg.payload2 = msg.payload;\nmsg.payload = {};\nmsg.payload.chatId = msg.originalMessage.from.id;\nmsg.payload.type = msg.payload2[3].type;\nmsg.payload.content = msg.payload2[3].content;    \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1740,
+        "y": 1480,
+        "wires": [
+            [
+                "93573ba1fe8fcd60"
+            ]
+        ]
+    },
+    {
+        "id": "6f604a59cc1d3720",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Mensaje 4 Imagen",
+        "func": "msg.payload2 = msg.payload;\nmsg.payload = msg.payload2[3].weblink;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1750,
+        "y": 1540,
+        "wires": [
+            [
+                "974182da7e33bcdf"
+            ]
+        ]
+    },
+    {
+        "id": "974182da7e33bcdf",
+        "type": "jimp-image",
+        "z": "fc1802182d4124d6",
+        "name": "",
+        "data": "payload",
+        "dataType": "msg",
+        "ret": "buf",
+        "parameter1": "",
+        "parameter1Type": "msg",
+        "parameter2": "",
+        "parameter2Type": "msg",
+        "parameter3": "",
+        "parameter3Type": "msg",
+        "parameter4": "",
+        "parameter4Type": "msg",
+        "parameter5": "",
+        "parameter5Type": "msg",
+        "parameter6": "",
+        "parameter6Type": "msg",
+        "parameter7": "",
+        "parameter7Type": "msg",
+        "parameter8": "",
+        "parameter8Type": "msg",
+        "sendProperty": "payload",
+        "sendPropertyType": "msg",
+        "parameterCount": 0,
+        "jimpFunction": "none",
+        "selectedJimpFunction": {
+            "name": "none",
+            "fn": "none",
+            "description": "Just loads the image.",
+            "parameters": []
+        },
+        "x": 1930,
+        "y": 1540,
+        "wires": [
+            [
+                "803daa6c9358268e"
+            ]
+        ]
+    },
+    {
+        "id": "803daa6c9358268e",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Enviar Imagen 4 a Telegram por Buffer",
+        "func": "var buffer = msg.payload;\nvar payload = {\n  content: buffer,\n  caption: msg.payload2[3].caption,\n  type : 'photo',\n  chatId: msg.originalMessage.from.id\n}\n\nmsg.payload = payload;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2170,
+        "y": 1540,
+        "wires": [
+            [
+                "93573ba1fe8fcd60"
+            ]
+        ]
+    },
+    {
+        "id": "1d569354b2206d42",
+        "type": "switch",
+        "z": "fc1802182d4124d6",
+        "name": "Tipo de Mensage 5",
+        "property": "payload[4].type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "message",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "photo",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1430,
+        "y": 1660,
+        "wires": [
+            [
+                "89dd242c41db4f3c"
+            ],
+            [
+                "f536223f726c0eb1"
+            ]
+        ]
+    },
+    {
+        "id": "89dd242c41db4f3c",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Mensaje 5 Texto",
+        "func": "msg.payload2 = msg.payload;\nmsg.payload = {};\nmsg.payload.chatId = msg.originalMessage.from.id;\nmsg.payload.type = msg.payload2[4].type;\nmsg.payload.content = msg.payload2[4].content;    \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1640,
+        "y": 1600,
+        "wires": [
+            [
+                "0733556b56971516"
+            ]
+        ]
+    },
+    {
+        "id": "f536223f726c0eb1",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Mensaje 5 Imagen",
+        "func": "msg.payload2 = msg.payload;\nmsg.payload = msg.payload2[4].weblink;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1650,
+        "y": 1660,
+        "wires": [
+            [
+                "33e957c7f8d77340"
+            ]
+        ]
+    },
+    {
+        "id": "33e957c7f8d77340",
+        "type": "jimp-image",
+        "z": "fc1802182d4124d6",
+        "name": "",
+        "data": "payload",
+        "dataType": "msg",
+        "ret": "buf",
+        "parameter1": "",
+        "parameter1Type": "msg",
+        "parameter2": "",
+        "parameter2Type": "msg",
+        "parameter3": "",
+        "parameter3Type": "msg",
+        "parameter4": "",
+        "parameter4Type": "msg",
+        "parameter5": "",
+        "parameter5Type": "msg",
+        "parameter6": "",
+        "parameter6Type": "msg",
+        "parameter7": "",
+        "parameter7Type": "msg",
+        "parameter8": "",
+        "parameter8Type": "msg",
+        "sendProperty": "payload",
+        "sendPropertyType": "msg",
+        "parameterCount": 0,
+        "jimpFunction": "none",
+        "selectedJimpFunction": {
+            "name": "none",
+            "fn": "none",
+            "description": "Just loads the image.",
+            "parameters": []
+        },
+        "x": 1830,
+        "y": 1660,
+        "wires": [
+            [
+                "20a3c12c47b78744"
+            ]
+        ]
+    },
+    {
+        "id": "20a3c12c47b78744",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Enviar Imagen 5 a Telegram por Buffer",
+        "func": "var buffer = msg.payload;\nvar payload = {\n  content: buffer,\n  caption: msg.payload2[4].caption,\n  type : 'photo',\n  chatId: msg.originalMessage.from.id\n}\n\nmsg.payload = payload;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2070,
+        "y": 1660,
+        "wires": [
+            [
+                "0733556b56971516"
+            ]
+        ]
+    },
+    {
+        "id": "07229d9fdb647799",
+        "type": "mongodb in",
+        "z": "fc1802182d4124d6",
+        "mongodb": "5a8f02d12f358ae8",
+        "name": "Find Data",
+        "collection": "",
+        "operation": "find",
+        "x": 1320,
+        "y": 1320,
+        "wires": [
+            [
+                "1d569354b2206d42",
+                "a3163f265721fc46",
+                "0ed05e2272395c89",
+                "51156f8ce4890ea7",
+                "1d79c6b118d20001"
+            ]
+        ]
+    },
+    {
+        "id": "29aa3e86a27d74db",
+        "type": "mongodb out",
+        "z": "fc1802182d4124d6",
+        "mongodb": "5a8f02d12f358ae8",
+        "name": "Mongo Insert Imagen",
+        "collection": "",
+        "payonly": true,
+        "upsert": false,
+        "multi": false,
+        "operation": "insert",
+        "x": 1220,
+        "y": 1040,
+        "wires": []
+    },
+    {
+        "id": "405610f561db11f2",
+        "type": "mongodb out",
+        "z": "fc1802182d4124d6",
+        "mongodb": "5a8f02d12f358ae8",
+        "name": "Mongo Insert Texto",
+        "collection": "",
+        "payonly": true,
+        "upsert": false,
+        "multi": false,
+        "operation": "insert",
+        "x": 1170,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "3b0b15856c778325",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "send picture",
+        "func": "// content can be a file_id, url, local path...\nmsg.payload.content = 'https://noticieros.televisa.com/wp-content/uploads/2021/03/cheems-1.jpg';\nmsg.payload.type = 'photo';\nmsg.payload.caption = \"Cheems\"\n\n/* type can be one of the following\nphoto\naudio\nvideo\nsticker\nvoice\ndocument\n*/\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 1780,
+        "wires": [
+            [
+                "bd102514f9bbcf93",
+                "ce9cb1265b6ed255"
+            ]
+        ]
+    },
+    {
+        "id": "bd102514f9bbcf93",
+        "type": "debug",
+        "z": "fc1802182d4124d6",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 637,
+        "y": 1880,
+        "wires": []
+    },
+    {
+        "id": "ce9cb1265b6ed255",
+        "type": "telegram sender",
+        "z": "fc1802182d4124d6",
+        "name": "",
+        "bot": "b3759cfd74a26a82",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 707,
+        "y": 1800,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "230fcc7909f22c04",
+        "type": "telegram command",
+        "z": "fc1802182d4124d6",
+        "name": "/foo",
+        "command": "/foo",
+        "description": "",
+        "registercommand": false,
+        "language": "",
+        "bot": "b3759cfd74a26a82",
+        "strict": false,
+        "hasresponse": false,
+        "useregex": false,
+        "removeregexcommand": false,
+        "outputs": 1,
+        "x": 157,
+        "y": 1800,
+        "wires": [
+            [
+                "3b0b15856c778325"
+            ]
+        ]
+    },
+    {
+        "id": "35ff8454ef06d8f1",
+        "type": "openweathermap",
+        "z": "fc1802182d4124d6",
+        "name": "Clima Estados",
+        "wtype": "current",
+        "lon": "",
+        "lat": "",
+        "city": "",
+        "country": "",
+        "language": "es",
+        "x": 720,
+        "y": 1120,
+        "wires": [
+            [
+                "276ed7f731f64938"
+            ]
+        ]
+    },
+    {
+        "id": "f853486e3b80af37",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "",
+        "func": "msg.location = {lat : msg.payload.content.latitude, lon : msg.payload.content.longitude};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 1120,
+        "wires": [
+            [
+                "35ff8454ef06d8f1"
+            ]
+        ]
+    },
+    {
+        "id": "276ed7f731f64938",
+        "type": "function",
+        "z": "fc1802182d4124d6",
+        "name": "Estatus de Clima Envío Telegram",
+        "func": "var helpMessage = msg.originalMessage.from.first_name+ ' ' + msg.originalMessage.from.last_name+' basado en su ubicación el clima es:\\n';\nhelpMessage += '🌆Ciudad: '+msg.location.city+'\\n';\nhelpMessage += '🌤️Actual: '+msg.payload.detail+'\\n';\nhelpMessage += '🌡️Temperatura Actual: '+msg.payload.tempc+'°C\\n';\nhelpMessage += '☁️Nubosidad: '+msg.payload.clouds+'%\\n';\nhelpMessage += '🌡➕Temperatura Máxima: '+msg.payload.temp_maxc+'°C\\n';\nhelpMessage += '🌡️➖Temperatura Mínima: '+msg.payload.temp_minc+'°C\\n';\nhelpMessage += '🌫️Humedad: '+msg.payload.humidity+'%\\n';\nhelpMessage += '️🌬️Velocidad del viento: '+(msg.payload.windspeed * 3.6).toFixed(2)+'km/h\\n';\n\nvar val = Math.floor((msg.payload.winddirection / 22.5) + 0.5);\nvar arr = [\"Norte\", \"Norte Nord-Este\", \"Nord-Este\", \"Este Nord-Este\", \"Este\", \"Este Sur-Este\", \"Sur-Este\", \"Sur Sur-Este\", \"Sur\", \"Sur Sur-Oeste\", \"Sur-Oeste\", \"Oeste Sur-Oeste\", \"Oeste\", \"Oeste Nord-Oeste\", \"Noroeste\", \"Norte Nord-Oeste\"];\nwinddirection = arr[(val % 16)];\n\nhelpMessage += '🧭Dirección del viento: '+winddirection+'\\n';\n\nvar options = { timeZone: 'America/Mexico_City', timeZoneName: 'short' };\nvar localTimeSunrise = new Date(msg.payload.sunrise * 1000).toLocaleTimeString('es-MX', options)\nvar localTimeSunset = new Date(msg.payload.sunset * 1000).toLocaleTimeString('es-MX', options)\n\nhelpMessage += '🌅Amanecer: '+localTimeSunrise+', formato 24 Hrs\\n';\nhelpMessage += '🌄Anochecer: '+localTimeSunset+', formato 24 Hrs\\n';\nhelpMessage += '\\n\\n Dar clic para habilitar el menú: /menu';\nmsg.payload.content = helpMessage;\nmsg.payload.chatId = msg.originalMessage.from.id;\nmsg.payload.type = \"message\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 960,
+        "y": 1120,
+        "wires": [
+            [
+                "48562c674f416439",
+                "3f28e2d060636ffc"
+            ]
+        ]
+    },
+    {
+        "id": "3f28e2d060636ffc",
+        "type": "debug",
+        "z": "fc1802182d4124d6",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1290,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "09833b70f6ad809e",
+        "type": "debug",
+        "z": "fc1802182d4124d6",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 890,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "b3759cfd74a26a82",
+        "type": "telegram bot",
+        "botname": "InfComunitarioBot",
+        "usernames": "",
+        "chatids": "",
+        "baseapiurl": "",
+        "updatemode": "polling",
+        "pollinterval": "300",
+        "usesocks": false,
+        "sockshost": "",
+        "socksport": "6667",
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbotport": "8443",
+        "publicbotport": "8443",
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    },
+    {
+        "id": "5a8f02d12f358ae8",
+        "type": "mongodb",
+        "hostname": "cluster0.mfdyi.mongodb.net",
+        "topology": "dnscluster",
+        "connectOptions": "",
+        "port": "27017",
+        "db": "ApoyoComunitario",
+        "name": "MongoDB"
+    }
+]
