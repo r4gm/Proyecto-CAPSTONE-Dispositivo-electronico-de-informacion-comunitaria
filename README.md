@@ -1,15 +1,12 @@
 # Dispositivo electrónico de información comunitaria
 ## Introducción
 Este proyecto fue ideado con la intención de apoyar a las comunidades a través de un dispositivo capaz de mostrar comunicados oficiales del ayuntamiento, estadísticas metrorológicas (mediante la API OpenWeather) y parámetros importantes de salud (específicamente el ritmo cardiaco y el oxígeno en sangre).
-
 Además, será una introducción para las personas poco familiarizadas con la tecnología mediante el uso de una interfaz gráfica (dashboard), o bien, una fuente de información fidedigna y actualizada para personas que dispongan de un dispositivo capaz de ejecutar la aplicación Telegram.
 
 Para administrar gran parte de la información desplegada en el dashboard se hará uso de un Bot de Telegram; los usuarios a quienes se les asigne el rol de Administrador podrán publicar imágenes y/o texto en opciones como: dónde ir, apoyo a la comunidad, publicaciones a la comunidad, etc.
-
 La implementación se compone de un kiosco ubicado en lugares céntricos o estratégicos para que cualquier persona tenga acceso a este. Este Kiosco contará con el sensor MAX30102 para las lecturas médicas antes mencionadas, y una pantalla táctil en la cual se visualizarán datos como: un esquema rápido pulso cardiaco y niveles de oxigenación en la sangre, información del clima, hora de amanecer local, comunicados para la comunidad, etc.
 
 Se podrán realizar las adecuaciones pertinentes según las necesidades de la comunidad, tales como modificar las opciones a las que tendrá acceso el administrador, agregar los administradores necesarios, limitar la cantidad de comunicados que se podrán visualizar en Telegram, etc.
-
 La información proporcionada en el kiosco ayudará en la toma de decisiones y acciones en beneficio de una persona (salud) o la comunidad (clima), a la par de fungir como cimientos de las comunidades IoT con el uso de este proyecto en su vida cotidiana.
 
 
@@ -61,11 +58,11 @@ La información proporcionada en el kiosco ayudará en la toma de decisiones y a
 
    2.2. Se abrirá una ventana en la cual estará el código "en limpio", se debe copiar todo el código y pegarlo en un archivo nuevo en el IDE de preferencia.
 
-        _Se usó Visual Studio Code para el manejo de los archivos del sensor._
+   _Se usó Visual Studio Code para el manejo de los archivos del sensor._
 
    2.3. Guardar  los archivos con su respectivo nombre en GitHub, ya que estos se importaran después y se usaran para poder identificarlos entre sí.
 3. Ejecutar el archivo _prueba01_ (encargado de iniciar el sensor).
-	
+
    _Dicho archivo ya tiene la conexión por medio de MQTT al broker.hivemq.com (línea 9), así como la publicación en el topic "Max30102G4GRG/heartrate" que corresponderá al ritmo cardiaco y "Max30102G4GRG/blood" que es el Oxigeno en la sangre (líneas 33 y 35 respectivamente)._
 4. Se podrá visualizar los valores obtenidos por el sensor MAX30102.
 
@@ -84,26 +81,19 @@ Librerías requeridas para el funcionamiento de la aplicación:
 
 _Pasos para instalar la librería_
 
-_-> Menú Hamburguesa _
-
-_-> Manage Palette _
-
-_-> Install _
-
-_-> Ingresar la clave de la librería _
-
-_-> Clic Install_
+1. _Menú Hamburguesa_
+2. _Manage Palette_
+3. _Install_
+4. _Ingresar la clave de la librería_
+5. _Clic Install_
 
 
 _Una vez instaladas las librerías, se debe importar el [código](https://github.com/r4gm/Proyecto-CAPSTONE-Dispositivo-electronico-de-informacion-comunitaria/blob/main/node-red_code/Bot_Telegram.json) referente al bot de Telegram:_
 
-_-> Menú Hamburguesa_
-
-_-> Import_
-
-_-> Ingresar el código JSON_
-
-_-> e importar_
+1. _Menú Hamburguesa_
+2. _Import_
+3. _Ingresar el código JSON_
+4. _Importar_
 
 
 Una vez importado, se visualizarán los nodos de node-red.
@@ -133,16 +123,17 @@ Realizar las siguientes configuraciones en el Flow del Bot de Telegram:
 
    6.2. Username y Password.
 
-        _Debe crear su usuario y contraseña para acceso a la base de datos._
+    _Debe crear su usuario y contraseña para acceso a la base de datos._
 
-        _Se obtienen desde el servidor implementado de mongodb._
+    _Se obtienen desde el servidor implementado de mongodb._
 
    6.3. Clic en Update y Done.
 
-        _Se actualizarán todos los nodos de Mongo._
+    _Se actualizarán todos los nodos de Mongo._
 
-        _Servidor montado en [MongoDB Atlas(https://www.mongodb.com/atlas/database)_
+    _Servidor montado en [MongoDB Atlas(https://www.mongodb.com/atlas/database)_
 7. Realizar un deploy al flow.
+
 
 Realizar las siguientes configuraciones para agregar el rol administrador a un usuario:
 1. Ingresar al bot de telegram creado y dar clic en _/start_.
@@ -161,7 +152,7 @@ Realizar las siguientes configuraciones para agregar el rol administrador a un u
 
    4.2. Ahora se debe visualizar un botón adicional para las opciones de administrador.
 
-        _La fase del bot del proyecto estará conectada y se podrá agregar datos a MongoDB_
+    _La fase del bot del proyecto estará conectada y se podrá agregar datos a MongoDB_
 
 
 ### Dashboard
@@ -174,8 +165,7 @@ Una vez importado, se visualizarán los nodos de node-red.
 
 **Configuración del Dashboard**
 1. En los nodos MQTT de _MQTTHeartRate_ y _MQTTBlood_ se debe poner el topic que asignó desde el programa de Python.
-	_Ejemplo de topic:_
-	_mitopic/blood y mitopic/heartrate_ y done.
+	_Ejemplo de topic: mitopic/blood y mitopic/heartrate_ y done.
 2. En el nodo _clima_, ingresar su APIKey.
 3. Clic en Deploy.
 
