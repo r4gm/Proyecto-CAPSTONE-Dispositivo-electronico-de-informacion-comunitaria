@@ -97,7 +97,7 @@ _Una vez instaladas las librerías, se debe importar el [código](https://github
 
 
 Una vez importado, se visualizarán los nodos de node-red.
-![nodos de node-red para el Bot de Telegram](https://github.com/r4gm/Proyecto-CAPSTONE-Dispositivo-electronico-de-informacion-comunitaria/blob/main/Figuras_referencia/Flow_Bot_Telegram.png).
+![nodos de node-red para el Bot de Telegram](https://github.com/r4gm/Proyecto-CAPSTONE-Dispositivo-electronico-de-informacion-comunitaria/blob/main/Figuras_referencia/Flow_Bot_Telegram.png)
 
 **Configuración del Bot de Telegram**
 
@@ -131,7 +131,7 @@ Realizar las siguientes configuraciones en el Flow del Bot de Telegram:
 
     _Se actualizarán todos los nodos de Mongo._
 
-    _Servidor montado en [MongoDB Atlas(https://www.mongodb.com/atlas/database)_
+    _Servidor montado en [MongoDB Atlas](https://www.mongodb.com/atlas/database)._
 7. Realizar un deploy al flow.
 
 
@@ -161,7 +161,7 @@ Realizar las siguientes configuraciones para agregar el rol administrador a un u
 Primero, se debe importar el [código](https://github.com/r4gm/Proyecto-CAPSTONE-Dispositivo-electronico-de-informacion-comunitaria/blob/main/node-red_code/Dashboard.json) referente al Dashboard, tal y como se realizó para el Bot de Telegram.
 
 Una vez importado, se visualizarán los nodos de node-red.
-![nodos de node-red para el Dashboard](https://github.com/r4gm/Proyecto-CAPSTONE-Dispositivo-electronico-de-informacion-comunitaria/blob/main/Figuras_referencia/Flow_Dashboard.png).
+![nodos de node-red para el Dashboard](https://github.com/r4gm/Proyecto-CAPSTONE-Dispositivo-electronico-de-informacion-comunitaria/blob/main/Figuras_referencia/Flow_Dashboard.png)
 
 **Configuración del Dashboard**
 1. En los nodos MQTT de _MQTTHeartRate_ y _MQTTBlood_ se debe poner el topic que asignó desde el programa de Python.
@@ -169,7 +169,8 @@ Una vez importado, se visualizarán los nodos de node-red.
 2. En el nodo _clima_, ingresar su APIKey.
 3. Clic en Deploy.
 
-Se podrá visualizar el [dashboard](https://github.com/r4gm/Proyecto-CAPSTONE-Dispositivo-electronico-de-informacion-comunitaria/blob/main/Figuras_referencia/Dashboard.png) ingresando a la dirección http://<IP-Dirección>:1880/ui/
+Se podrá visualizar el dashboard ingresando a la dirección http://<IP-Dirección>:1880/ui/
+![dashboard](https://github.com/r4gm/Proyecto-CAPSTONE-Dispositivo-electronico-de-informacion-comunitaria/blob/main/Figuras_referencia/Dashboard.png)
 
 _Recuerde que debe tener datos cargados en la base de datos de MongoDB con el bot previamente configurado._
 
